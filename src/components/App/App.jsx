@@ -1,59 +1,31 @@
-import { useState, useEffect } from "react";
-import Options from "../Options/Options";
-import Description from "../Description/Description";
-import Feedback from "../Feedback/Feedback";
-import Notification from "../Notification/Notification";
+import { useState } from "react";
+// import { Formik, Form, Field, ErrorMessage } from "formik";
+// import * as Yup from "yup";
+import SearchBox from "../SearchBox/SearchBox";
+import ContactForm from "../ContactForm/ContactForm";
+import ContactList from "../ContactList/ContactList";
+
+const users = [
+  { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
+  { id: "id-2", name: "Hermione Kline", number: "443-89-12" },
+  { id: "id-3", name: "Eden Clements", number: "645-17-79" },
+  { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
+];
+const [contact, setContact] = useState("");
+const addContact = (newContact) => {
+  setContact((contact) => {
+    return [...contact, newContact];
+  });
+};
 
 const App = () => {
-  const [reviews, setReviews] = useState(() => {
-    const savedReviews = localStorage.getItem("statistics");
-    return savedReviews
-      ? JSON.parse(savedReviews)
-      : { good: 0, neutral: 0, bad: 0 };
-  });
-
-  const totalFeedback = reviews.good + reviews.neutral + reviews.bad;
-
-  useEffect(() => {
-    localStorage.setItem("statistics", JSON.stringify(reviews));
-  }, [reviews]);
-
-  const updateFeedback = (feedbackType) => {
-    setReviews({
-      ...reviews,
-      [feedbackType]: reviews[feedbackType] + 1,
-    });
-  };
-  const reset = () => {
-    setReviews({
-      good: 0,
-      neutral: 0,
-      bad: 0,
-    });
-  };
-
-  const positiveFeedback =
-    totalFeedback > 0 ? Math.round((reviews.good / totalFeedback) * 100) : 0;
-
   return (
-    <>
-      <Description />
-      <Options
-        updateFeedback={updateFeedback}
-        reset={reset}
-        totalFeedback={totalFeedback}
-      />
-      {totalFeedback > 0 ? (
-        <Feedback
-          updateFeedback={updateFeedback}
-          reviews={reviews}
-          positiveFeedback={positiveFeedback}
-          totalFeedback={totalFeedback}
-        />
-      ) : (
-        <Notification />
-      )}
-    </>
+    <div>
+      <h1>Phonebook</h1>
+      <ContactForm onAdd={addContact} />
+      {/* <SearchBox  /> */}
+      <ContactList users={users} />
+    </div>
   );
 };
 export default App;
