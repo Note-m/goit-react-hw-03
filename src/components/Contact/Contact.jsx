@@ -1,6 +1,7 @@
 import css from "./Contact.module.css";
 
 const Contact = ({ id, name, number, onDelete }) => {
+  // deleting contacts by id
   const handleDelete = () => {
     onDelete(id);
   };

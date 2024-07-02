@@ -3,6 +3,7 @@ import { nanoid } from "nanoid";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
+//validating schema for name and number
 const ContactSchema = Yup.object().shape({
   name: Yup.string()
     .min(3, "Too short")
@@ -15,6 +16,7 @@ const ContactSchema = Yup.object().shape({
 });
 
 const ContactForm = ({ onAdd }) => {
+  //func submit
   const handleSubmit = (values, { resetForm }) => {
     onAdd({
       id: nanoid(),
